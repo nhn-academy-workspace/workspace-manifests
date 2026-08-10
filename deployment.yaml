@@ -17,7 +17,7 @@ spec:
         - name: ghcr-secret
       containers:
         - name: booking-app
-          image: ghcr.io/byesummer/hello-app:ff4339ed22d3b218d9b43b3273066dbead780302
+          image: ghcr.io/byesummer/booking-app:latest
           ports:
             - containerPort: 8080
           readinessProbe:
