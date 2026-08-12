@@ -4,7 +4,7 @@ metadata:
   name: workspace
   namespace: argocd
 spec:
-  project: default
+  project: workspace
   source:
     repoURL: https://github.com/nhn-academy-workspace/workspace-manifests.git
     targetRevision: main
