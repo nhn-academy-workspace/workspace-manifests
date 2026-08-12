@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+  namespace: workspace
+spec:
+  serviceName: mysql
+  replicas: 1
+  selector:
+    matchLabels: { app: mysql }
+  template:
+    metadata:
+      labels: { app: mysql }
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom: { secretKeyRef: { name: workspace-secrets, key: db-root-password } }
+            - name: MYSQL_DATABASE
+              value: workspace
+            - name: MYSQL_USER
+              valueFrom: { secretKeyRef: { name: workspace-secrets, key: db-user } }
+            - name: MYSQL_PASSWORD
+              valueFrom: { secretKeyRef: { name: workspace-secrets, key: db-password } }
+            - name: TZ
+              value: Asia/Seoul
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/mysql
+          readinessProbe:
+            exec:
+              command: ["mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p$(MYSQL_ROOT_PASSWORD)"]
+            initialDelaySeconds: 15
+            periodSeconds: 10
+  volumeClaimTemplates:
+    - metadata: { name: data }
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources: { requests: { storage: 5Gi } }

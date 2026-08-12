@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: workspace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: backend
+          image: ghcr.io/academy-pj/workspace-backend:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:mysql://mysql:3306/workspace?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8&useUnicode=true"
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom: { secretKeyRef: { name: workspace-secrets, key: db-user } }
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom: { secretKeyRef: { name: workspace-secrets, key: db-password } }
+            - name: TELEGRAM_BOT_TOKEN
+              valueFrom: { secretKeyRef: { name: workspace-secrets, key: telegram-bot-token } }
+            - name: TELEGRAM_BOT_USERNAME
+              valueFrom: { secretKeyRef: { name: workspace-secrets, key: telegram-bot-username } }
+            - name: TELEGRAM_WEBHOOK_SECRET
+              valueFrom: { secretKeyRef: { name: workspace-secrets, key: telegram-webhook-secret } }
+            - name: TZ
+              value: Asia/Seoul
+          readinessProbe:
+            httpGet:
+              path: /api/v1/rooms
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 5
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /api/v1/rooms
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          lifecycle:
+            preStop:
+              exec:
+                command: ["sh", "-c", "sleep 5"]
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"

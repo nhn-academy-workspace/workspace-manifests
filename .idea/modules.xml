@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/workspace-booking-manifests.iml" filepath="$PROJECT_DIR$/workspace-booking-manifests.iml" />
+      <module fileurl="file://$PROJECT_DIR$/workspace-manifests.iml" filepath="$PROJECT_DIR$/workspace-manifests.iml" />
     </modules>
   </component>
 </project>

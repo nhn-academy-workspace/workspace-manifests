@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: booking-app-service
+  name: frontend
   namespace: workspace
 spec:
   selector:
-    app: booking-app
+    app: frontend
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 8080
+      targetPort: 80
   type: ClusterIP
