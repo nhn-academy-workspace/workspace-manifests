@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/academy-pj/workspace-manifests.git
+    repoURL: https://github.com/nhn-academy-workspace/workspace-manifests.git
     targetRevision: main
     path: apps
   destination:
