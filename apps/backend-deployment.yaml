@@ -17,7 +17,7 @@ spec:
         - name: ghcr-secret
       containers:
         - name: backend
-          image: ghcr.io/nhn-academy-workspace/workspace-backend:cfa7a30a852af8b916dff1d54df1446ffd69f668
+          image: ghcr.io/nhn-academy-workspace/workspace-backend:60cb577abd58c3dd00a96b236ff38261deeaefdc
           ports:
             - containerPort: 8080
           env:
