@@ -17,7 +17,7 @@ spec:
         - name: ghcr-secret
       containers:
         - name: frontend
-          image: ghcr.io/nhn-academy-workspace/workspace-frontend:a8bc1db4efad639e44457c3c7fb9f1f0f924beb2
+          image: ghcr.io/nhn-academy-workspace/workspace-frontend:ad40c9a3a80680ac5f8687bcf0841ae6fff7f972
           ports:
             - containerPort: 80
           readinessProbe:
